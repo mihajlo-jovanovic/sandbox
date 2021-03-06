@@ -11,8 +11,8 @@ This is a simple test driver client utility. It works by sending a stream of req
 - To run:
 
     ```console
-    $ go get github.com/linus18/sandbox
-    $ $(go env $GOPATH)/bin/driver &
+    $ cd driver && go build
+    $ ./driver
     ```
   
 ### tcp_server
@@ -23,6 +23,18 @@ separated by end-of-line \n.
 - To run:
 
     ```console
-    $ go get github.com/linus18/sandbox
-    $ $(go env $GOPATH)/bin/tcp_server &
+    $ cd tcp_server && go build
+    $ ./tcp_server
     ```
+  
+### posting_api_grpc
+
+Simplest possible posting API
+
+- To compile:
+
+    ```console
+    $ protoc -I=$SRC_DIR --go_out=$DST_DIR ../posting.proto
+    ```
+  
+* make sure to not include the full package name in DST_DIR, or else it will result in additional nested dirs.

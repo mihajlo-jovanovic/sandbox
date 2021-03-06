@@ -12,3 +12,6 @@
 *.out
 .idea
 *.iml
+/driver/driver
+/tcp_server/tcp_server
+/posting_api_grpc/req.bin

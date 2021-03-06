@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/linus18/sandbox/posting_api_grpc";
+
+package posting_api_grpc;
+
+service Posting {
+  rpc CreatePosting (PostingRequest) returns (PostingReply) {}
+}
+message PostingRequest {
+  google.protobuf.Timestamp posting_date = 1;
+  string merchant = 2;
+  int64 amount = 3;
+  bool is_credit = 4;
+  string account_id = 5;
+}
+
+message PostingReply {
+  string response_code = 1;
+}

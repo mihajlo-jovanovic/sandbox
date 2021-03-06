@@ -14,9 +14,9 @@ import (
 const WORKERS = 10
 
 type logData struct {
-	elapsed           int64
-	request           string
-	response          string
+	elapsed  int64
+	request  string
+	response string
 }
 
 type logWriter struct {
@@ -26,7 +26,6 @@ type logWriter struct {
 func (writer logWriter) Write(bytes []byte) (int, error) {
 	return fmt.Fprint(writer.w, strconv.Itoa(int(time.Now().UnixNano()/1000000))+"|"+string(bytes))
 }
-
 
 func startLogger(logStream chan logData) {
 	filename := "log.out"
@@ -60,7 +59,7 @@ func main() {
 	var wg sync.WaitGroup
 	wg.Add(WORKERS)
 	lines := make(chan string, 100)
-	for i:=0;i<100;i++ {
+	for i := 0; i < 100; i++ {
 		lines <- "hi there"
 	}
 
@@ -74,7 +73,7 @@ func main() {
 	wg.Wait()
 }
 
-func doWork(conn net.Conn, wg* sync.WaitGroup, threadId int, lines chan string, logStream chan logData) {
+func doWork(conn net.Conn, wg *sync.WaitGroup, threadId int, lines chan string, logStream chan logData) {
 	defer wg.Done()
 	for {
 		select {
