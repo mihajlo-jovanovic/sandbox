@@ -1,0 +1,31 @@
+package main
+
+import (
+	"context"
+	pb "github.com/linus18/sandbox/posting_api_grpc"
+	"google.golang.org/grpc"
+	"google.golang.org/protobuf/types/known/timestamppb"
+	"log"
+	"time"
+)
+
+func main() {
+	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure(), grpc.WithBlock())
+	if err != nil {
+		log.Fatalf("Failed to dail gRPC server: %v", err)
+	}
+	defer conn.Close()
+	client := pb.NewPostingClient(conn)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+	req := &pb.PostingRequest{PostingDate: timestamppb.Now(),
+		Merchant:  "Starbucks",
+		Amount:    725,
+		IsCredit:  false,
+		AccountId: "1"}
+	r, err := client.CreatePosting(ctx, req)
+	if err != nil {
+		log.Fatalf("could not post: %v", err)
+	}
+	log.Printf("Got back: %s", r.ResponseCode)
+}
