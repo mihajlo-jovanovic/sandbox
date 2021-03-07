@@ -2,7 +2,7 @@
 
 My personal Golang playground to try out language features such as channels as well as concepts such as gRPC, async logging, etc.
 
-## Modules
+## Packages
 
 ### Driver
 
