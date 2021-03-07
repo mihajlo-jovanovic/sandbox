@@ -38,3 +38,11 @@ Simplest possible posting API
     ```
   
 * make sure to not include the full package name in DST_DIR, or else it will result in additional nested dirs.
+
+## References
+
+[Go gRPC Quickstart](https://grpc.io/docs/languages/go/quickstart/) 
+
+[Anatomy of modules in Go](https://medium.com/rungo/anatomy-of-modules-in-go-c8274d215c16)
+
+[Protocol Buffers Basics: Go](https://developers.google.com/protocol-buffers/docs/gotutorial#the_protocol_buffer_api)
