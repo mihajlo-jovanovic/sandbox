@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-const WORKERS = 10
+const workers = 10
 
 type logData struct {
 	elapsed  int64
@@ -38,14 +38,13 @@ func startLogger(logStream chan logData) {
 	requestLogger.SetFlags(0)
 	requestLogger.SetOutput(&logWriter{file})
 	for {
-		select {
-		case ld, ok := <-logStream:
-			if !ok {
-				log.Println("no remaining log data for", filename)
-				return
-			}
-			requestLogger.Printf("%v|%v|%v\n", ld.elapsed, ld.request, ld.response)
+		ld, ok := <-logStream
+		if !ok {
+			log.Println("no remaining log data for", filename)
+			return
 		}
+		requestLogger.Printf("%v|%v|%v\n", ld.elapsed, ld.request, ld.response)
+
 	}
 }
 
@@ -57,7 +56,7 @@ func main() {
 	defer conn.Close()
 
 	var wg sync.WaitGroup
-	wg.Add(WORKERS)
+	wg.Add(workers)
 	lines := make(chan string, 100)
 	for i := 0; i < 100; i++ {
 		lines <- "hi there"
@@ -66,39 +65,38 @@ func main() {
 	logStream := make(chan logData)
 	go startLogger(logStream)
 
-	for i := 0; i < WORKERS; i++ {
+	for i := 0; i < workers; i++ {
 		go doWork(conn, &wg, i, lines, logStream)
 
 	}
 	wg.Wait()
 }
 
-func doWork(conn net.Conn, wg *sync.WaitGroup, threadId int, lines chan string, logStream chan logData) {
+func doWork(conn net.Conn, wg *sync.WaitGroup, threadID int, lines chan string, logStream chan logData) {
 	defer wg.Done()
 	for {
-		select {
-		case payload, ok := <-lines:
-			if !ok {
-				log.Println("returning...")
-				return
-			}
-			start := time.Now()
-			buffer := []byte(payload + "\n")
-			_, err := conn.Write(buffer)
-			if err != nil {
-				log.Printf("Error writing buffer: %v", err)
-				return
-			}
-			//fmt.Printf("thread %d wrote %d bytes\n", n, threadId)
-			// read response
-			response := make([]byte, 8)
-			_, err = conn.Read(response)
-			if err != nil {
-				log.Printf("Error while reading response: %v\n", err)
-			}
-			elapsed := time.Since(start)
-			fmt.Printf("%s Thread %d received: %s\n", elapsed, threadId, response)
-			logStream <- logData{elapsed.Nanoseconds() / 1000000, payload, string(response)}
+		payload, ok := <-lines
+		if !ok {
+			log.Println("returning...")
+			return
 		}
+		start := time.Now()
+		buffer := []byte(payload + "\n")
+		_, err := conn.Write(buffer)
+		if err != nil {
+			log.Printf("Error writing buffer: %v", err)
+			return
+		}
+		//fmt.Printf("thread %d wrote %d bytes\n", n, threadId)
+		// read response
+		response := make([]byte, 8)
+		_, err = conn.Read(response)
+		if err != nil {
+			log.Printf("Error while reading response: %v\n", err)
+		}
+		elapsed := time.Since(start)
+		fmt.Printf("%s Thread %d received: %s\n", elapsed, threadID, response)
+		logStream <- logData{elapsed.Nanoseconds() / 1000000, payload, string(response)}
+
 	}
 }
