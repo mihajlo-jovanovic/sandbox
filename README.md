@@ -34,10 +34,11 @@ Simplest possible posting API
 - To compile:
 
     ```console
-    $ protoc -I=$SRC_DIR --go_out=$DST_DIR ../posting.proto
+    $ protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative posting_api_grpc/posting.proto
     ```
   
-* make sure to not include the full package name in DST_DIR, or else it will result in additional nested dirs.
+* This will generate both the types and service interface definition
+* Make sure to be in project root when running this command, note the relative path to proto file
 
 ## References
 
