@@ -1,19 +1,17 @@
 package posting_api_grpc_test
 
 import (
-	"github.com/golang/protobuf/ptypes"
 	pb "github.com/linus18/sandbox/posting_api_grpc"
 	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/types/known/timestamppb"
 	"io/ioutil"
 	"log"
 	"testing"
-	"time"
 )
 
 func TestMarshall(t *testing.T) {
-	time.Now()
 	req := &pb.PostingRequest{
-		PostingDate: ptypes.TimestampNow(),
+		PostingDate: timestamppb.Now(),
 		Merchant:    "Starbucks",
 		Amount:      725,
 		IsCredit:    false,
