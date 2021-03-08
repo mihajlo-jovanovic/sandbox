@@ -1,3 +1,4 @@
+[![codecov](https://codecov.io/gh/linus18/sandbox/branch/master/graph/badge.svg?token=UOQB1OKEWY)](https://codecov.io/gh/linus18/sandbox)
 # Sandbox
 
 My personal Golang playground to try out language features such as channels as well as concepts such as gRPC, async logging, etc.
