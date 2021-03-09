@@ -48,3 +48,5 @@ Simplest possible posting API
 [Anatomy of modules in Go](https://medium.com/rungo/anatomy-of-modules-in-go-c8274d215c16)
 
 [Protocol Buffers Basics: Go](https://developers.google.com/protocol-buffers/docs/gotutorial#the_protocol_buffer_api)
+
+[Create the smallest and secured golang docker image based on scratch](https://chemidy.medium.com/create-the-smallest-and-secured-golang-docker-image-based-on-scratch-4752223b7324)
