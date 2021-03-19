@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: posting-processor
+  labels:
+    app: posting-processor
+    service: posting-processor
+spec:
+  ports:
+    - port: 50051
+      name: http
+  selector:
+    app: posting-processor
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: posting-processor-v1
+  labels:
+    app: posting-processor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: posting-processor
+  template:
+    metadata:
+      labels:
+        app: posting-processor
+    spec:
+      containers:
+        - name: posting-processor
+          image: grpc_server
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 50051
