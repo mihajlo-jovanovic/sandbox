@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: my-posting-client
+spec:
+  template:
+    spec:
+      containers:
+        - name: my-posting-client
+          image: grpc_test_client
+          # this one's important if you want to run locally w docker & minikube
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Never
+  backoffLimit: 4
+
+
