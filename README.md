@@ -41,6 +41,14 @@ Simplest possible posting API
 * This will generate both the types and service interface definition
 * Make sure to be in project root when running this command, note the relative path to proto file
 
+## Running in Minikube
+
+- Integrate minikube with local docker:
+
+  ```console
+  eval $(minikube -p minikube docker-env)
+  ```
+
 ## References
 
 [Go gRPC Quickstart](https://grpc.io/docs/languages/go/quickstart/) 
