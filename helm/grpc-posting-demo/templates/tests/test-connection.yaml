@@ -1,7 +1,12 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: my-posting-client
+  name: "{{ include "grpc-posting-demo.fullname" . }}-test-connection"
+  labels:
+    {{- include "grpc-posting-demo.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+
 spec:
   template:
     spec:
@@ -10,7 +15,8 @@ spec:
           image: grpc_test_client
           # this one's important if you want to run locally w docker & minikube
           imagePullPolicy: IfNotPresent
+          env:
+            - name: TARGET
+              value: '{{ include "grpc-posting-demo.fullname" . }}:50051'
       restartPolicy: Never
   backoffLimit: 4
-
-
