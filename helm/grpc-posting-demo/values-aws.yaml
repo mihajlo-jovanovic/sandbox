@@ -5,8 +5,8 @@
 replicaCount: 1
 
 image:
-  repository: grpc_server
-  testClient: grpc_test_client
+  repository: 633803426328.dkr.ecr.us-east-1.amazonaws.com/grpc_server
+  testClient: 633803426328.dkr.ecr.us-east-1.amazonaws.com/grpc_test_client
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
