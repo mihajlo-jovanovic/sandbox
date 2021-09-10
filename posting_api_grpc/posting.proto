@@ -10,11 +10,12 @@ service Posting {
   rpc CreatePosting (PostingRequest) returns (PostingReply) {}
 }
 message PostingRequest {
-  google.protobuf.Timestamp posting_date = 1;
-  string merchant = 2;
-  int64 amount = 3;
-  bool is_credit = 4;
-  string account_id = 5;
+  string id = 1;
+  google.protobuf.Timestamp posting_date = 2;
+  string merchant = 3;
+  int64 amount = 4;
+  bool is_credit = 5;
+  string account_id = 6;
 }
 
 message PostingReply {
