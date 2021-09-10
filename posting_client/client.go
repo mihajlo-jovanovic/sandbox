@@ -27,9 +27,11 @@ func main() {
 	client := pb.NewPostingClient(conn)
 	ctx, cancel = context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	req := &pb.PostingRequest{PostingDate: timestamppb.Now(),
-		Merchant:  "Starbucks",
-		Amount:    725,
+	req := &pb.PostingRequest{
+		Id: "b776a2d9-80f9-47de-9a5c-fff67b82cb56",
+		PostingDate: timestamppb.Now(),
+		Merchant:  "Amazon",
+		Amount:    100000,
 		IsCredit:  false,
 		AccountId: "1"}
 	r, err := client.CreatePosting(ctx, req)

@@ -31,8 +31,10 @@ ENV GO111MODULE=on
 RUN go mod download
 RUN go mod verify
 
+COPY testhelpers/. testhelpers/.
 COPY posting_api_impl/. posting_api_impl/.
 COPY posting_api_grpc/. posting_api_grpc/.
+RUN go get -t ./posting_api_impl/.
 
 # Build the binary
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
