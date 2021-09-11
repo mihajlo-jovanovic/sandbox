@@ -58,3 +58,5 @@ Simplest possible posting API
 [Protocol Buffers Basics: Go](https://developers.google.com/protocol-buffers/docs/gotutorial#the_protocol_buffer_api)
 
 [Create the smallest and secured golang docker image based on scratch](https://chemidy.medium.com/create-the-smallest-and-secured-golang-docker-image-based-on-scratch-4752223b7324)
+
+[Basic Postgres database in Kubernetes](https://itnext.io/basic-postgres-database-in-kubernetes-23c7834d91ef)
