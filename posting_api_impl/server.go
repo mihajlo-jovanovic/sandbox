@@ -9,16 +9,17 @@ import (
 	"google.golang.org/grpc"
 	"log"
 	"net"
+	"os"
 )
 
 const (
 	serverport = ":50051"
 	host       = "postgres-postgresql"
 	//host = "localhost"
-	port   = 5432
-	user   = "postgres"
-	passwd = "H1aCELrAQD"
-	dbname = "bank"
+	port        = 5432
+	user        = "postgres"
+	passwordKey = "ROOT_DB_PASSWD"
+	dbname      = "bank"
 )
 
 type postingServer struct {
@@ -41,6 +42,10 @@ func (server *postingServer) CreatePosting(ctx context.Context, in *pb.PostingRe
 }
 
 func main() {
+	passwd, isPresent := os.LookupEnv(passwordKey)
+	if !isPresent {
+		log.Fatalf("Could not find %s in environment - existing...", passwordKey)
+	}
 	psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, passwd, dbname)
 	db, err := sql.Open("postgres", psqlconn)
 	if err != nil {
