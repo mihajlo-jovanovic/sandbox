@@ -49,6 +49,18 @@ Simplest possible posting API
   eval $(minikube -p minikube docker-env)
   ```
 
+## Secret Management
+
+Posting server assumes there is an instance of Hashi Vault running and accessible at vault:8200, with the database
+password inserted at the following path and accessible by its service account. It used an init container to fetch
+the secret and write it to a file from which the server reads it. See references for more info on how to set this up.
+I will automate this when I get some time, but for now this needs to be done manually.
+
+```
+     ROOT_DB_PASSWD:                vault:secret/data/dev/postgres#ROOT_DB_PASSWD
+     VAULT_ADDR:                    https://vault:8200
+```
+
 ## References
 
 [Go gRPC Quickstart](https://grpc.io/docs/languages/go/quickstart/) 
@@ -60,3 +72,5 @@ Simplest possible posting API
 [Create the smallest and secured golang docker image based on scratch](https://chemidy.medium.com/create-the-smallest-and-secured-golang-docker-image-based-on-scratch-4752223b7324)
 
 [Basic Postgres database in Kubernetes](https://itnext.io/basic-postgres-database-in-kubernetes-23c7834d91ef)
+
+[Dynamic secrets on kubernetes pods using vault](https://gmaliar.medium.com/dynamic-secrets-on-kubernetes-pods-using-vault-35d9094d169)

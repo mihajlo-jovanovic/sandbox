@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"github.com/google/uuid"
 	pb "github.com/linus18/sandbox/posting_api_grpc"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -28,7 +29,7 @@ func main() {
 	ctx, cancel = context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 	req := &pb.PostingRequest{
-		Id: "b776a2d9-80f9-47de-9a5c-fff67b82cb56",
+		Id: uuid.New().String(),
 		PostingDate: timestamppb.Now(),
 		Merchant:  "Amazon",
 		Amount:    100000,

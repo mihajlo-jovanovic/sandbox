@@ -16,11 +16,12 @@ const (
 	serverport = ":50051"
 	host       = "postgres-postgresql"
 	//host = "localhost"
-	port        = 5432
-	user        = "postgres"
-	passwordKey = "ROOT_DB_PASSWD"
-	dbname      = "bank"
+	port   = 5432
+	user   = "postgres"
+	dbname = "bank"
 )
+
+const rootDbSecretFile = "/db/root_db_secret"
 
 type postingServer struct {
 	pb.UnimplementedPostingServer
@@ -42,11 +43,12 @@ func (server *postingServer) CreatePosting(ctx context.Context, in *pb.PostingRe
 }
 
 func main() {
-	passwd, isPresent := os.LookupEnv(passwordKey)
-	if !isPresent {
-		log.Fatalf("Could not find %s in environment - existing...", passwordKey)
+	passwd, err := os.ReadFile(rootDbSecretFile)
+	if err != nil {
+		log.Fatalf("Could not read db password from file %s - exiting...", rootDbSecretFile)
 	}
-	psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, passwd, dbname)
+
+	psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, string(passwd), dbname)
 	db, err := sql.Open("postgres", psqlconn)
 	if err != nil {
 		panic(err)

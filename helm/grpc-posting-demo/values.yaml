@@ -22,9 +22,12 @@ serviceAccount:
   annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: ""
+  name: "posting"
 
-podAnnotations: {}
+podAnnotations: {
+  vault.security.banzaicloud.io/vault-tls-secret: vault-tls,
+  vault.security.banzaicloud.io/vault-role: "posting"
+}
 
 podSecurityContext: {}
   # fsGroup: 2000
